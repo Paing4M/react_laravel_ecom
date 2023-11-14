@@ -23,10 +23,15 @@ function Sidebar() {
 
 			<li className='nav-item active'>
 				<Link className='nav-link' to={'/admin/dashboard'}>
-					<i className='fas fa-fw fa-tachometer-alt'></i>
+					<i className='fas fa-fw fa-pager'></i>
+					<span>User Page</span>
+				</Link>
+				<Link className='nav-link' to={'/admin/dashboard'}>
+					<i className='fas fa-fw fa-desktop'></i>
 					<span>Dashboard</span>
 				</Link>
 				<Link className='nav-link' to={'/admin/profile'}>
+					<i className='fas fa-fw fa-user'></i>
 					<span>Profile</span>
 				</Link>
 			</li>

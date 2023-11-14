@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+.body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	margin: 0;
+	background-color: #f8f9fa;
+	font-family: 'Lato', sans-serif;
+}
+
+.container {
+	text-align: center;
+}
+
+.status_code {
+	font-size: 10em;
+	font-weight: bold;
+	color: #dc3545;
+}
+
+.message {
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+
+.back_link {
+	color: #007bff;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.back_link:hover {
+	text-decoration: underline;
+}

@@ -6,6 +6,7 @@ import { setUser } from '../../../slide/userSlide'
 import { useUser } from '../../../hooks/useUser'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 
 function Register() {
 	const [inputField, setInputField] = useState({

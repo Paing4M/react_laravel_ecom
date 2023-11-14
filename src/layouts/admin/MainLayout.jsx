@@ -19,7 +19,7 @@ function MainLayout() {
 						<TopBar />
 
 						{/* page content */}
-						<div class='container-fluid'>
+						<div className='container-fluid'>
 							<Outlet />
 						</div>
 					</div>
@@ -36,7 +36,7 @@ function MainLayout() {
 			<div
 				className='modal fade'
 				id='logoutModal'
-				tabindex='-1'
+				tabIndex='-1'
 				role='dialog'
 				aria-labelledby='exampleModalLabel'
 				aria-hidden='true'

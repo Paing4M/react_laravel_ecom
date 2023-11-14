@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -7,9 +6,15 @@ import { setUser } from '../../../slide/userSlide'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../../../hooks/useUser'
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 function Login() {
 	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+	const redirect = searchParams.get('redirect')
+
 	const dispatch = useDispatch()
 	const [inputField, setInputField] = useState({
 		email: '',
@@ -40,7 +45,7 @@ function Login() {
 					})
 
 					dispatch(setUser({ user: res.user, token: res.token }))
-					navigate('/')
+					navigate(redirect ? redirect : '/')
 				},
 				onError: async (err) => {
 					console.log(err)
