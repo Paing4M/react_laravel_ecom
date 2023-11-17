@@ -12,6 +12,7 @@ import Loading from '../../../components/back/Loading'
 import { axiosInstance } from '../../../util/axiosInstance'
 import { BarLoader } from 'react-spinners'
 import Swal from 'sweetalert2'
+import { deleteCategoryRequest } from '../../../api/category.api'
 
 const Category = () => {
 	const [editId, setEditId] = useState(null)
@@ -188,8 +189,7 @@ const Category = () => {
 			confirmButtonText: 'Yes, delete it!',
 		}).then((result) => {
 			if (result.isConfirmed) {
-				axiosInstance.delete('/categories/' + id).then((res) => {
-					// console.log(res)
+				deleteCategoryRequest(id).then((res) => {
 					if (res.status == 200) {
 						queryClient.invalidateQueries({
 							queryKey: ['get', 'getCategory'],

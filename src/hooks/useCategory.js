@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from 'react-query'
-import { postCategoryRequest } from '../api/postCategory.api'
-import { getCategoryRequest } from '../api/getCategory.api'
-import { updateCategoryRequest } from '../api/updateCategory.api'
+import {
+	getCategoryRequest,
+	postCategoryRequest,
+	updateCategoryRequest,
+} from '../api/category.api'
 
 const postCategoryMutation = () => {
 	return useMutation({
