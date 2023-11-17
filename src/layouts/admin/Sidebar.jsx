@@ -1,3 +1,5 @@
+import { faTableList } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -22,13 +24,17 @@ function Sidebar() {
 			<hr className='sidebar-divider my-0' />
 
 			<li className='nav-item active'>
-				<Link className='nav-link' to={'/admin/dashboard'}>
+				<Link className='nav-link' to={'/'}>
 					<i className='fas fa-fw fa-pager'></i>
 					<span>User Page</span>
 				</Link>
 				<Link className='nav-link' to={'/admin/dashboard'}>
 					<i className='fas fa-fw fa-desktop'></i>
 					<span>Dashboard</span>
+				</Link>
+				<Link className='nav-link' to={'/admin/category'}>
+					<FontAwesomeIcon className='mr-1' icon={faTableList} />
+					<span>Category</span>
 				</Link>
 				<Link className='nav-link' to={'/admin/profile'}>
 					<i className='fas fa-fw fa-user'></i>

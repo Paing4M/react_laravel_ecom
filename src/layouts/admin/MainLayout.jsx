@@ -4,6 +4,7 @@ import TopBar from './TopBar'
 import Footer from './Footer'
 import '../../assets/admin/css/sb-admin-2.min.css'
 import '../../assets/admin/vendor/fontawesome-free/css/all.min.css'
+import '../../assets/admin/vendor/datatables/dataTables.bootstrap4.min.css'
 import { Outlet } from 'react-router-dom'
 
 function MainLayout() {

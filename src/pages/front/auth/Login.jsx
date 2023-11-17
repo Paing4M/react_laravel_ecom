@@ -39,13 +39,17 @@ function Login() {
 			{
 				onSuccess: async (res) => {
 					console.log(res)
+					const result = await res
 					setInputField({
 						...inputField,
 						errors: {},
 					})
 
-					dispatch(setUser({ user: res.user, token: res.token }))
-					navigate(redirect ? redirect : '/')
+					dispatch(setUser({ user: result.user, token: result.token }))
+
+					result.user.type === 1
+						? navigate(redirect ? redirect : '/admin/dashboard')
+						: navigate(redirect ? redirect : '/')
 				},
 				onError: async (err) => {
 					console.log(err)

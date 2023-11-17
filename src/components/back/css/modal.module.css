@@ -1,0 +1,16 @@
+.container {
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.648);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	display: flex;
+}
+
+.content {
+	width: 600px;
+	margin: auto;
+	z-index: 1000;
+}
