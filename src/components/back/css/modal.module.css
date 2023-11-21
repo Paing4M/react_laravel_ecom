@@ -13,4 +13,7 @@
 	width: 600px;
 	margin: auto;
 	z-index: 1000;
+	background-color: #fff;
+	padding: 1rem;
+	border-radius: 0.3rem;
 }

@@ -1,3 +1,4 @@
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons'
 import { faTableList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
@@ -28,14 +29,22 @@ function Sidebar() {
 					<i className='fas fa-fw fa-pager'></i>
 					<span>User Page</span>
 				</Link>
+
 				<Link className='nav-link' to={'/admin/dashboard'}>
 					<i className='fas fa-fw fa-desktop'></i>
 					<span>Dashboard</span>
 				</Link>
+
 				<Link className='nav-link' to={'/admin/category'}>
 					<FontAwesomeIcon className='mr-1' icon={faTableList} />
 					<span>Category</span>
 				</Link>
+
+				<Link className='nav-link' to={'/admin/product'}>
+					<FontAwesomeIcon className='mr-1' icon={faBoxOpen} />
+					<span>Product</span>
+				</Link>
+
 				<Link className='nav-link' to={'/admin/profile'}>
 					<i className='fas fa-fw fa-user'></i>
 					<span>Profile</span>

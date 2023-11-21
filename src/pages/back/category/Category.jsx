@@ -13,9 +13,13 @@ import { axiosInstance } from '../../../util/axiosInstance'
 import { BarLoader } from 'react-spinners'
 import Swal from 'sweetalert2'
 import { deleteCategoryRequest } from '../../../api/category.api'
+import Pagination from '../../../components/back/Pagination'
 
 const Category = () => {
+	const [page, setPage] = useState(1)
+	const [perPage, setPerPage] = useState('')
 	const [editId, setEditId] = useState(null)
+	const [searchTerm, setSearchTerm] = useState('')
 	const [openModal, setOpenModal] = useState(false)
 	const [errors, setErrors] = useState({})
 	const [editLoading, setEditLoading] = useState(false)
@@ -38,7 +42,18 @@ const Category = () => {
 
 	const { mutateAsync: mutateAsyncUpdateCategory } = updateCategoryMutation()
 
-	const { data, isSuccess, isLoading } = getCategoryMutation()
+	const { data, isSuccess, isLoading } = getCategoryMutation(page, perPage)
+
+	const totalPages = Math.ceil(data?.meta?.total / data?.meta?.per_page)
+
+	const handlePageChange = (data) => {
+		const currentPage = data.selected + 1
+		setPage(currentPage)
+	}
+
+	const handlePerpage = (e) => {
+		setPerPage(e.target.value)
+	}
 
 	const handleOpenModal = () => {
 		setOpenModal(true)
@@ -72,7 +87,7 @@ const Category = () => {
 		})
 
 		await queryClient.invalidateQueries({
-			queryKey: ['get', 'getCategory'],
+			queryKey: ['get', 'getCategory', page],
 		})
 	}
 
@@ -176,11 +191,11 @@ const Category = () => {
 		}
 	}
 
-	// to delete
+	// to delete category
 	const handleDelete = (id) => {
 		// confirm delete
 		Swal.fire({
-			title: 'Are you sure?.',
+			title: 'Are you sure?',
 			text: "You won't be able to revert this!",
 			icon: 'warning',
 			showCancelButton: true,
@@ -192,11 +207,11 @@ const Category = () => {
 				deleteCategoryRequest(id).then((res) => {
 					if (res.status == 200) {
 						queryClient.invalidateQueries({
-							queryKey: ['get', 'getCategory'],
+							queryKey: ['get', 'getCategory', page],
 						})
 						Swal.fire({
 							title: 'Deleted!',
-							text: 'Your file has been deleted.',
+							text: 'Your category has been deleted.',
 							icon: 'success',
 						})
 					}
@@ -239,14 +254,35 @@ const Category = () => {
 										<label>
 											Show{' '}
 											<select
+												onChange={handlePerpage}
 												name='dataTable_length'
 												aria-controls='dataTable'
 												className='custom-select custom-select-sm form-control form-control-sm'
 											>
-												<option value='10'>10</option>
-												<option value='25'>25</option>
-												<option value='50'>50</option>
-												<option value='100'>100</option>
+												<option
+													defaultValue={perPage == 10}
+													value='10'
+												>
+													10
+												</option>
+												<option
+													defaultValue={perPage == 25}
+													value='25'
+												>
+													25
+												</option>
+												<option
+													defaultValue={perPage == 50}
+													value='50'
+												>
+													50
+												</option>
+												<option
+													defaultValue={perPage == 100}
+													value='100'
+												>
+													100
+												</option>
 											</select>{' '}
 											entries
 										</label>
@@ -260,6 +296,10 @@ const Category = () => {
 										<label>
 											Search:
 											<input
+												value={searchTerm}
+												onChange={(e) =>
+													setSearchTerm(e.target.value)
+												}
 												type='search'
 												className='form-control form-control-sm'
 												placeholder=''
@@ -293,134 +333,40 @@ const Category = () => {
 												</tr>
 											)}
 											{isSuccess &&
-												data.length > 0 &&
-												data.map((res) => (
-													<CategoryList
-														handleDelete={handleDelete}
-														id={res.id}
-														handleEdit={handleEdit}
-														key={res.id}
-														name={res.name}
-														slug={res.slug}
-														status={res.status}
-													/>
-												))}
+												data.data.length > 0 &&
+												data.data
+													.filter((search) =>
+														search.name
+															.toLowerCase()
+															.includes(searchTerm.toLowerCase())
+													)
+													.map((res) => (
+														<CategoryList
+															handleDelete={handleDelete}
+															id={res.id}
+															handleEdit={handleEdit}
+															key={res.id}
+															name={res.name}
+															slug={res.slug}
+															status={res.status}
+														/>
+													))}
 										</tbody>
 									</table>
 								</div>
 							</div>
 							<div className='row'>
-								<div className='col-sm-12 col-md-5'>
+								<div>
 									<div
-										className='dataTables_info'
-										id='dataTable_info'
-										role='status'
-										aria-live='polite'
-									>
-										Showing 1 to 10 of 57 entries
-									</div>
-								</div>
-								<div className='col-sm-12 col-md-7'>
-									<div
-										className='dataTables_paginate paging_simple_numbers'
+										className='dataTables_paginate  paging_simple_numbers'
 										id='dataTable_paginate'
 									>
-										<ul className='pagination'>
-											<li
-												className='paginate_button page-item previous disabled'
-												id='dataTable_previous'
-											>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='0'
-													tabIndex='0'
-													className='page-link'
-												>
-													Previous
-												</a>
-											</li>
-											<li className='paginate_button page-item active'>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='1'
-													tabIndex='0'
-													className='page-link'
-												>
-													1
-												</a>
-											</li>
-											<li className='paginate_button page-item '>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='2'
-													tabIndex='0'
-													className='page-link'
-												>
-													2
-												</a>
-											</li>
-											<li className='paginate_button page-item '>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='3'
-													tabIndex='0'
-													className='page-link'
-												>
-													3
-												</a>
-											</li>
-											<li className='paginate_button page-item '>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='4'
-													tabIndex='0'
-													className='page-link'
-												>
-													4
-												</a>
-											</li>
-											<li className='paginate_button page-item '>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='5'
-													tabIndex='0'
-													className='page-link'
-												>
-													5
-												</a>
-											</li>
-											<li className='paginate_button page-item '>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='6'
-													tabIndex='0'
-													className='page-link'
-												>
-													6
-												</a>
-											</li>
-											<li
-												className='paginate_button page-item next'
-												id='dataTable_next'
-											>
-												<a
-													href='#'
-													aria-controls='dataTable'
-													data-dt-idx='7'
-													tabIndex='0'
-													className='page-link'
-												>
-													Next
-												</a>
-											</li>
-										</ul>
+										{totalPages > 1 && (
+											<Pagination
+												totalPages={totalPages}
+												handlePageChange={handlePageChange}
+											/>
+										)}
 									</div>
 								</div>
 							</div>

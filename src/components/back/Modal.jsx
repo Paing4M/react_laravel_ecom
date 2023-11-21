@@ -12,10 +12,10 @@ const Modal = ({
 }) => {
 	return (
 		<div className={style.container}>
-			<div className={style.content}>
+			<div className={`${style.content}`}>
 				<div className='modal-content'>
-					<div className='modal-header d-flex items-center bg-white'>
-						<h3 className='modal-title'>{title}</h3>
+					<div className='modal-header d-flex items-center bg-white mb-1'>
+						<h4 className='modal-title'>{title}</h4>
 
 						<button className='btn' onClick={closeModal}>
 							<FontAwesomeIcon
@@ -24,9 +24,9 @@ const Modal = ({
 							/>
 						</button>
 					</div>
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={handleSubmit} encType='multipart/form-data'>
 						<div className='modal-body'>{children}</div>
-						<div className='modal-footer'>
+						<div className='modal-footer mt-2 gap-2'>
 							<button
 								onClick={closeModal}
 								type='button'

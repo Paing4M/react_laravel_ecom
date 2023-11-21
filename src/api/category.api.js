@@ -1,8 +1,23 @@
 import { axiosInstance } from '../util/axiosInstance'
 
-const getCategoryRequest = async () => {
+const getCategoryRequest = async (page, perPage) => {
+	// console.log(page)
 	try {
-		const res = await axiosInstance.get('/categories')
+		const res = await axiosInstance.get(
+			`/categories?page=${page}&per_page=${perPage}`
+		)
+		return {
+			data: res.data.data,
+			meta: res.data.meta,
+		}
+	} catch (error) {
+		throw Promise.reject(error)
+	}
+}
+
+const getEnableCategoryRequest = async () => {
+	try {
+		const res = await axiosInstance.get('/enable-categories')
 		return res.data.data
 	} catch (error) {
 		throw Promise.reject(error)
@@ -62,4 +77,5 @@ export {
 	postCategoryRequest,
 	updateCategoryRequest,
 	deleteCategoryRequest,
+	getEnableCategoryRequest,
 }

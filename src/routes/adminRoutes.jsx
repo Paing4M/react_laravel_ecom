@@ -4,6 +4,7 @@ import Dashboard from '../pages/back/dashboard/Dashboard'
 import Profile from '../pages/back/profile/Profile'
 import AdminProtectedRoute from '../AdminProtectedRoute'
 import Category from '../pages/back/category/Category'
+import Product from '../pages/back/product/Product'
 
 export const adminRoutes = [
 	{
@@ -23,6 +24,11 @@ export const adminRoutes = [
 			{
 				path: 'category',
 				element: <AdminProtectedRoute component={Category} />,
+			},
+
+			{
+				path: 'product',
+				element: <AdminProtectedRoute component={Product} />,
 			},
 
 			{

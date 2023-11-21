@@ -75,7 +75,7 @@ const CategoryModalClild = ({ inputField, errors, handleInput }) => {
 								name='slug'
 								className='form-control'
 							/>
-							{errors.name && (
+							{errors.slug && (
 								<span className='text-danger'>{errors.slug[0]}</span>
 							)}
 						</div>
