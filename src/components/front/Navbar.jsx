@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../../slide/userSlide'
 import { axiosInstance } from '../../util/axiosInstance'
+import { NavLink } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 function Navbar() {
 	const { user, token } = useSelector((state) => state.user)
@@ -14,16 +17,34 @@ function Navbar() {
 		if (res.status === 200) {
 			dispatch(logoutUser())
 		}
-		// console.log(res)
+		console.log(res)
 	}
 
 	if (user && token) {
 		renderRightNav = (
 			<>
 				<li className='nav-item'>
+					<NavLink className={'nav-link mx-2'} to={'/'}>
+						Home
+					</NavLink>
+				</li>
+
+				<li className='nav-item'>
+					<NavLink className={'nav-link mx-2'} to={'/shop'}>
+						Shop
+					</NavLink>
+				</li>
+
+				<li className='nav-item'>
+					<NavLink className={'nav-link mx-2'} to={'/cart'}>
+						<FontAwesomeIcon icon={faCartShopping} />
+					</NavLink>
+				</li>
+
+				<li className='nav-item'>
 					<Link
 						style={{ textTransform: 'capitalize' }}
-						className='nav-link'
+						className='nav-link mx-2'
 					>
 						{user.name}
 					</Link>
@@ -33,7 +54,7 @@ function Navbar() {
 					<a
 						onClick={logout}
 						style={{ cursor: 'pointer' }}
-						className='nav-link'
+						className='nav-link mx-2'
 					>
 						Logout
 					</a>
@@ -44,17 +65,21 @@ function Navbar() {
 		renderRightNav = (
 			<>
 				<li className='nav-item'>
-					<Link className='nav-link active' aria-current='page' to='/'>
+					<Link
+						className='nav-link mx-2 active'
+						aria-current='page'
+						to='/'
+					>
 						Home
 					</Link>
 				</li>
 				<li className='nav-item'>
-					<Link className='nav-link' to='/login'>
+					<Link className='nav-link mx-2' to='/login'>
 						Login
 					</Link>
 				</li>
 				<li className='nav-item'>
-					<Link className='nav-link' to='/register'>
+					<Link className='nav-link mx-2' to='/register'>
 						Register
 					</Link>
 				</li>

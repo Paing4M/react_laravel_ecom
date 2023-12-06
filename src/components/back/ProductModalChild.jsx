@@ -205,7 +205,7 @@ const ProductModalChild = ({
 								Selling Price
 							</label>
 							<input
-								value={inputField.selling_price}
+								value={inputField.selling_price || ''}
 								onChange={handleInput}
 								type='text'
 								id='sell_price'
@@ -219,20 +219,16 @@ const ProductModalChild = ({
 					{/* category */}
 					<div className='mb-3'>
 						<Loading loading={isLoading} Loader={BarLoader} />
-
 						{isSuccess && data.length > 0 && (
 							<select
 								name='category_id'
 								onChange={handleInput}
 								className='form-select'
+								value={inputField.category_id}
 							>
 								<option value={''}>Select Category</option>
 								{data.map((category) => (
-									<option
-										selected={category.id === inputField.category_id}
-										key={category.id}
-										value={category.id}
-									>
+									<option key={category.id} value={category.id}>
 										{category.name}
 									</option>
 								))}
@@ -393,6 +389,7 @@ const ProductModalChild = ({
 					{/* meta desc end*/}
 				</div>
 			</div>
+			{console.log(inputField.meta_description)}
 		</>
 	)
 }

@@ -1,4 +1,42 @@
-/* .app {
-	max-width: 1200px;
-	margin: 0 auto;
-} */
+ul {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none !important;
+}
+
+.hide-scrollBar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollBar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #2d9596;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+	height: 6px;
+	width: 6px;
+}
+*::-webkit-scrollbar-track {
+	border-radius: 4px;
+	background-color: #c0c0c0;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	background-color: #a6a6df;
+}

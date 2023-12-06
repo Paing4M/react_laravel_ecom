@@ -1,14 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { axiosInstance } from './util/axiosInstance'
+import { axiosInstance } from '../util/axiosInstance'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import Loading from './components/back/Loading'
+import Loading from '../components/back/Loading'
 
 function AdminProtectedRoute({ component: Component }) {
-	// const isAuthenticated = localStorage.getItem('token')
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
 
 	const [loading, setLoading] = useState(true)

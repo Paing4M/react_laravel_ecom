@@ -33,9 +33,24 @@ const deleteProductRequest = async (id) => {
 	return res
 }
 
+const getProductByCategoryRequest = async (slug) => {
+	const res = await axiosInstance.get('/get-product-by-category/' + slug)
+	return {
+		data: res.data.data,
+		meta: res.data.meta,
+	}
+}
+
+const getProductDetailsRequest = async (id) => {
+	const res = await axiosInstance.get(`/products/${id}`)
+	return res.data.data
+}
+
 export {
 	postProductRequest,
 	getAllProductsRequest,
 	updateProductRequest,
 	deleteProductRequest,
+	getProductByCategoryRequest,
+	getProductDetailsRequest,
 }

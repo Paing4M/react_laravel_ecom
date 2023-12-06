@@ -35,14 +35,14 @@ const Category = () => {
 		status: 0,
 	})
 
-	const { postCategoryMutation, getCategoryMutation, updateCategoryMutation } =
+	const { postCategoryMutation, getCategoryQuery, updateCategoryMutation } =
 		useCategory()
 
 	const { mutateAsync: mutateAsyncPostCategory } = postCategoryMutation()
 
 	const { mutateAsync: mutateAsyncUpdateCategory } = updateCategoryMutation()
 
-	const { data, isSuccess, isLoading } = getCategoryMutation(page, perPage)
+	const { data, isSuccess, isLoading } = getCategoryQuery(page, perPage)
 
 	const totalPages = Math.ceil(data?.meta?.total / data?.meta?.per_page)
 

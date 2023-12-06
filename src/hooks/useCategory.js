@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from 'react-query'
+
 import {
 	getCategoryRequest,
 	getEnableCategoryRequest,
@@ -13,7 +14,7 @@ const postCategoryMutation = () => {
 	})
 }
 
-const getCategoryMutation = (page, perPage) => {
+const getCategoryQuery = (page, perPage) => {
 	// console.log('inQuery->' + page)
 	return useQuery({
 		queryKey: ['get', 'getCategory', page, perPage],
@@ -21,7 +22,7 @@ const getCategoryMutation = (page, perPage) => {
 	})
 }
 
-const getEnableCategoryMutation = () => {
+const getEnableCategoryQuery = () => {
 	return useQuery({
 		queryKey: ['get', 'getEnableCategory'],
 		queryFn: getEnableCategoryRequest,
@@ -38,8 +39,8 @@ const updateCategoryMutation = () => {
 export const useCategory = () => {
 	return {
 		postCategoryMutation,
-		getCategoryMutation,
+		getCategoryQuery,
 		updateCategoryMutation,
-		getEnableCategoryMutation,
+		getEnableCategoryQuery,
 	}
 }

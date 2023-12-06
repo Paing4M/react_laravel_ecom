@@ -2,9 +2,9 @@ import React from 'react'
 import MainLayout from '../layouts/admin/MainLayout'
 import Dashboard from '../pages/back/dashboard/Dashboard'
 import Profile from '../pages/back/profile/Profile'
-import AdminProtectedRoute from '../AdminProtectedRoute'
 import Category from '../pages/back/category/Category'
 import Product from '../pages/back/product/Product'
+import AdminProtectedRoute from './AdminProtectedRoute'
 
 export const adminRoutes = [
 	{

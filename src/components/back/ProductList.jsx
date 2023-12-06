@@ -29,7 +29,7 @@ const ProductList = ({
 							? `${
 									import.meta.env.VITE_API_BASE_URL
 							  }/uploads/products/${img}`
-							: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHLkuZz8PBUYzb7yU2QtP7MXSptJXka0sCIAGsTIBc&s'
+							: '/default-img.png'
 					}
 					alt=''
 					style={{ width: '100%', height: '60px', objectFit: 'cover' }}

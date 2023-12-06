@@ -1,14 +1,9 @@
 import React from 'react'
-import Navbar from '../../../layouts/front/Navbar'
+import Navbar from '../../../components/front/Navbar'
 import { useSelector } from 'react-redux'
 
 function Home() {
-	return (
-		<>
-			<Navbar />
-			<div className='container'>home</div>
-		</>
-	)
+	return <>home</>
 }
 
 export default Home
