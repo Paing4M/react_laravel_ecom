@@ -3,6 +3,7 @@ import {
 	getAllProductsRequest,
 	getProductByCategoryRequest,
 	getProductDetailsRequest,
+	getRandomProductRequest,
 	postProductRequest,
 	updateProductRequest,
 } from '../api/product.api'
@@ -43,6 +44,13 @@ const getProductDetailsQuery = (id) => {
 	})
 }
 
+const getRandomProductQuery = () => {
+	return useQuery({
+		queryKey: ['get', 'getRandomProduct'],
+		queryFn: () => getRandomProductRequest(),
+	})
+}
+
 export const useProduct = () => {
 	return {
 		postProductMutation,
@@ -50,5 +58,6 @@ export const useProduct = () => {
 		updateProductMutation,
 		getProductByCategoryQuery,
 		getProductDetailsQuery,
+		getRandomProductQuery,
 	}
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import MainLayout from '../layouts/admin/MainLayout'
 import Dashboard from '../pages/back/dashboard/Dashboard'
-import Profile from '../pages/back/profile/Profile'
+import Order from '../pages/back/order/Order'
 import Category from '../pages/back/category/Category'
 import Product from '../pages/back/product/Product'
 import AdminProtectedRoute from './AdminProtectedRoute'
@@ -32,8 +32,8 @@ export const adminRoutes = [
 			},
 
 			{
-				path: 'profile',
-				element: <AdminProtectedRoute component={Profile} />,
+				path: 'order',
+				element: <AdminProtectedRoute component={Order} />,
 			},
 		],
 	},

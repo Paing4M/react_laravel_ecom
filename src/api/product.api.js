@@ -46,6 +46,11 @@ const getProductDetailsRequest = async (id) => {
 	return res.data.data
 }
 
+const getRandomProductRequest = async () => {
+	const res = await axiosInstance.get('/random_products')
+	return res.data
+}
+
 export {
 	postProductRequest,
 	getAllProductsRequest,
@@ -53,4 +58,5 @@ export {
 	deleteProductRequest,
 	getProductByCategoryRequest,
 	getProductDetailsRequest,
+	getRandomProductRequest,
 }

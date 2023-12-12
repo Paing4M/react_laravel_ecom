@@ -1,3 +1,4 @@
+import { faChartLine } from '@fortawesome/free-solid-svg-icons'
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons'
 import { faTableList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -45,9 +46,9 @@ function Sidebar() {
 					<span>Product</span>
 				</Link>
 
-				<Link className='nav-link' to={'/admin/profile'}>
-					<i className='fas fa-fw fa-user'></i>
-					<span>Profile</span>
+				<Link className='nav-link' to={'/admin/order'}>
+					<FontAwesomeIcon className='mr-1' icon={faChartLine} />
+					<span>Order</span>
 				</Link>
 			</li>
 

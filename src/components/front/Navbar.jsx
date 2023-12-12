@@ -36,18 +36,18 @@ function Navbar() {
 				</li>
 
 				<li className='nav-item'>
-					<NavLink className={'nav-link mx-2'} to={'/cart'}>
-						<FontAwesomeIcon icon={faCartShopping} />
-					</NavLink>
-				</li>
-
-				<li className='nav-item'>
 					<Link
 						style={{ textTransform: 'capitalize' }}
 						className='nav-link mx-2'
 					>
 						{user.name}
 					</Link>
+				</li>
+
+				<li className='nav-item'>
+					<NavLink className={'nav-link mx-2'} to={'/cart'}>
+						<FontAwesomeIcon icon={faCartShopping} />
+					</NavLink>
 				</li>
 
 				<li className='nav-item'>
@@ -90,9 +90,9 @@ function Navbar() {
 	return (
 		<nav className='navbar navbar-expand-lg bg-light navbar-light shadow-sm sticky-top '>
 			<div className='container'>
-				<a className='navbar-brand' href='#'>
+				<Link className='navbar-brand' to='/'>
 					Navbar
-				</a>
+				</Link>
 				<button
 					className='navbar-toggler'
 					type='button'

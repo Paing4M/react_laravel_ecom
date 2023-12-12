@@ -51,7 +51,7 @@ const Shop = () => {
 			renderProducts = categoryProducts.data.map((res) => (
 				<div
 					key={res.id + '_' + res.slug}
-					className='col-12 col-sm-6 col-md-4 gap-2'
+					className='col-12 col-md-6 col-lg-4  gap-2'
 				>
 					<ProductList
 						id={res.id}
@@ -72,7 +72,7 @@ const Shop = () => {
 	} else {
 		if (allProductsSuccess && allProducts.data.length > 0) {
 			renderProducts = allProducts.data.map((res) => (
-				<div className='col-12 col-sm-6 col-md-4 gap-2'>
+				<div className='col-12 col-md-6 col-lg-4 gap-2'>
 					<ProductList
 						key={res.id + res.name}
 						id={res.id}

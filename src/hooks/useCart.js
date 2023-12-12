@@ -12,9 +12,9 @@ const addToCartMutation = () => {
 	})
 }
 
-const getCartProductQuery = () => {
+const getCartProductQuery = (cart = '') => {
 	return useQuery({
-		queryKey: ['get', 'getCartProduct'],
+		queryKey: ['get', 'getCartProduct', cart],
 		queryFn: getCartProductRequest,
 	})
 }
