@@ -24,7 +24,8 @@ const ProductDetail = () => {
 	const [qtyValue, setQtyValue] = useState(1)
 	const { user } = useSelector((state) => state.user)
 	const { addToCartMutation } = useCart()
-	const { mutateAsync: addToCartMutateAsync } = addToCartMutation()
+	const { mutateAsync: addToCartMutateAsync, isLoading: addLoading } =
+		addToCartMutation()
 
 	const handleIncrement = () => {
 		if (qtyValue < data?.qty) {
@@ -193,7 +194,7 @@ const ProductDetail = () => {
 							</button>
 
 							<button
-								disabled={data.qty < 1}
+								disabled={data.qty < 1 || addLoading}
 								onClick={addToCart}
 								className={`btn btn-primary px-3 px-md-3 mt-2 w-50 `}
 							>

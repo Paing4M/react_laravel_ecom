@@ -50,7 +50,7 @@ const Shop = () => {
 		if (categoryProductsSuccess && categoryProducts.data.length > 0) {
 			renderProducts = categoryProducts.data.map((res) => (
 				<div
-					key={res.id + res.name}
+					key={res.id + '_' + res.slug}
 					className='col-12 col-sm-6 col-md-4 gap-2'
 				>
 					<ProductList

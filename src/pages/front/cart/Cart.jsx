@@ -11,23 +11,27 @@ import Swal from 'sweetalert2'
 import { useCart } from '../../../hooks/useCart'
 import Loading from '../../../components/back/Loading'
 import { useState } from 'react'
-import { deleteCartProductRequest } from '../../../api/cart.api'
+import {
+	deleteCartProductRequest,
+	deleteCartRequest,
+} from '../../../api/cart.api'
 import { toast } from 'react-toastify'
 import { useQueryClient } from 'react-query'
+import {
+	checkSuccessPaymentRequest,
+	checkoutRequest,
+} from '../../../api/stripe.api'
+import { useSearchParams } from 'react-router-dom'
 
 const Cart = () => {
+	const [searchParams] = useSearchParams()
 	const { user } = useSelector((state) => state.user)
+	const [loading, setLoading] = useState(false)
 	const [cartId, setCartId] = useState(null)
-	const [qtyLoading, setQtyLoading] = useState(false)
 	const navigate = useNavigate()
 	const { getCartProductQuery, updateCartProductQtyMutation } = useCart()
-	let {
-		data: cartItems,
-		isLoading,
-		isSuccess,
-		refetch,
-	} = getCartProductQuery()
-	const { mutateAsync: updateQtyMutateAsync } =
+	let { data: cartItems, isLoading, isSuccess } = getCartProductQuery()
+	const { mutateAsync: updateQtyMutateAsync, isLoading: qtyLoading } =
 		updateCartProductQtyMutation(cartId)
 	let totalPrice = 0
 	let items = 0
@@ -44,19 +48,26 @@ const Cart = () => {
 	}, [user])
 
 	useEffect(() => {
-		refetch()
+		// refetch()
+		const fetch = async () => {
+			await queryClient.invalidateQueries({
+				queryKey: ['get', 'getCartProduct'],
+			})
+		}
+
+		fetch()
 	}, [])
+
+	const queryClient = useQueryClient()
 
 	const handleQty = async (id, status) => {
 		setCartId(id)
-		setQtyLoading(true)
 		const item = cartItems.filter((item) => item.id === id)
-
 		let qty = item[0].product_qty
 		if (item) {
 			// qty increase
 			if (status == 'inc') {
-				if (qty < item[0].product.qty) {
+				if (qty < item[0].product?.qty) {
 					qty = qty + 1
 				}
 			}
@@ -74,10 +85,11 @@ const Cart = () => {
 			await updateQtyMutateAsync(
 				{ id, data },
 				{
-					onSuccess: (res) => {
+					onSuccess: async (res) => {
 						if (res.status == 200) {
-							refetch()
-							setQtyLoading(false)
+							await queryClient.invalidateQueries({
+								queryKey: ['get', 'getCartProduct'],
+							})
 						}
 					},
 					onError: (err) => {
@@ -87,8 +99,6 @@ const Cart = () => {
 			)
 		}
 	}
-
-	const queryClient = useQueryClient()
 
 	const deleteProduct = async (id) => {
 		const res = await deleteCartProductRequest(id)
@@ -100,14 +110,66 @@ const Cart = () => {
 		}
 	}
 
+	// checkout with backend
+	const handleCheckout = async () => {
+		setLoading(true)
+		const data = {
+			totalPrice,
+		}
+		const res = await checkoutRequest(data)
+		if (res) {
+			setLoading(false)
+			window.location.href = res.url
+		}
+	}
+
+	const check = async () => {
+		const sessionId = searchParams.get('session_id')
+		if (sessionId) {
+			const data = {
+				session_id: sessionId,
+			}
+			const res = await checkSuccessPaymentRequest(data)
+			if (res) {
+				console.log(res)
+				if (res.status == 404) {
+					Swal.fire({
+						title: res.message,
+						icon: 'warning',
+					})
+				} else {
+					setLoading(true)
+					const res = await deleteCartRequest()
+					if (res.status == 200) {
+						await queryClient.invalidateQueries({
+							queryKey: ['get', 'getCartProduct'],
+						})
+						Swal.fire({
+							title: 'Thanks for your shopping.',
+							text: 'Payment is done successfully.',
+							icon: 'success',
+						})
+						setLoading(false)
+						navigate('/cart')
+					}
+				}
+			}
+		}
+	}
+
+	// check payment is success or not
+	useEffect(() => {
+		check()
+	}, [searchParams.get('session_id')])
+
 	if (isLoading) return <Loading />
 
 	let renderCart
 	if (isSuccess && cartItems?.length > 0) {
 		renderCart = cartItems.map((item) => {
 			totalPrice +=
-				(item.product.selling_price ?? item.product.original_price) *
-				item.product_qty
+				(item?.product?.selling_price ?? item?.product?.original_price) *
+				item?.product_qty
 			items = cartItems.length
 
 			return (
@@ -121,23 +183,25 @@ const Cart = () => {
 								borderRadius: '.5rem',
 							}}
 							src={
-								item.product.image
+								item.product?.image
 									? `${
 											import.meta.env.VITE_API_BASE_URL
-									  }/uploads/products/${item.product.image}`
+									  }/uploads/products/${item.product?.image}`
 									: 'default-img.png'
 							}
 							alt=''
 						/>
 					</th>
-					<td className='align-middle'>{item.product.name}</td>
+					<td className='align-middle'>{item.product?.name}</td>
 					<td className='align-middle'>
-						${item.product.selling_price || item.product.original_price}
+						$
+						{item?.product?.selling_price ||
+							item?.product?.original_price}
 					</td>
 					<td className='align-middle'>
 						<div className='d-flex align-items-center border rounded border-dark'>
 							<button
-								disabled={qtyLoading}
+								disabled={item.product?.qty == 1 || qtyLoading}
 								onClick={() => handleQty(item.id, 'dec')}
 								className={`btn text-black border-start-0 border-top-0 border-bottom-0 border-dark ${
 									qtyLoading ? 'text-secondary' : 'text-black'
@@ -152,10 +216,12 @@ const Cart = () => {
 								{item.product_qty}
 							</div>
 							<button
-								disabled={qtyLoading}
+								disabled={item.product?.qty == 1 || qtyLoading}
 								onClick={() => handleQty(item.id, 'inc')}
 								className={`btn text-black border-end-0 border-top-0 border-bottom-0 border-dark ${
-									qtyLoading ? 'text-secondary' : 'text-black'
+									item?.product?.qty == 1 || qtyLoading
+										? 'text-secondary'
+										: 'text-black'
 								}`}
 							>
 								<FontAwesomeIcon icon={faPlus} />
@@ -164,8 +230,8 @@ const Cart = () => {
 					</td>
 					<td className='align-middle'>
 						$
-						{(item.product.selling_price ?? item.product.original_price) *
-							item.product_qty}
+						{(item.product?.selling_price ??
+							item.product?.original_price) * item.product_qty}
 					</td>
 					<td className='align-middle'>
 						<button
@@ -182,7 +248,9 @@ const Cart = () => {
 		renderCart = (
 			<tr>
 				<td colSpan={6}>
-					<p className='text-danger text-center'>Your cart is empty.</p>
+					<p className='text-danger text-center'>
+						Your cart is empty. <Link to='/shop'>Go Shopping.</Link>
+					</p>
 				</td>
 			</tr>
 		)
@@ -224,7 +292,19 @@ const Cart = () => {
 							<span className='float-end'>${totalPrice}</span>
 						</h4>
 						<hr className='bg-black' />
-						<button className='btn btn-primary'>Checkout</button>
+						{cartItems.length > 0 && (
+							<button
+								disabled={loading}
+								onClick={handleCheckout}
+								className='btn btn-primary'
+							>
+								{loading ? (
+									<Loading color='#fff' size={20} />
+								) : (
+									'Checkout'
+								)}
+							</button>
+						)}
 					</div>
 				</div>
 			</div>

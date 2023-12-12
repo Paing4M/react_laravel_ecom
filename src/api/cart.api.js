@@ -20,9 +20,15 @@ const deleteCartProductRequest = async (id) => {
 	return res.data
 }
 
+const deleteCartRequest = async () => {
+	const res = await axiosInstance.delete('/cart-delete')
+	return res.data
+}
+
 export {
 	addToCartRequest,
 	getCartProductRequest,
 	updateQtyCartProductRequest,
 	deleteCartProductRequest,
+	deleteCartRequest,
 }
